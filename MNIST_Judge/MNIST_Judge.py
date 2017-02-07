@@ -75,6 +75,13 @@ class MNIST_Data(object):
 
         return 
 
+    #手書き文字を２値化した特徴量をファイルに書き出す
+    def OutPutTrainData(self):
+        output_name = "train_feature.csv"
+        with open(output_name,'w',newline='') as f:
+            writer = csv.writer(f)
+            writer.writerows(self.__pix_data)
+        return 
 
 
     #ファイル名を取得
@@ -91,12 +98,16 @@ if __name__ == '__main__': #main関数
     #csvファイルからファイル名を取得
     csv_name = 'D:/myprog/MNIST_Judge/data/train_image.csv'
     label_name = 'D:/myprog/MNIST_Judge/data/train_label.csv'
+#    csv_name = 'D:/myprog/MNIST_Judge/data/train_image_test.csv'
+#    label_name = 'D:/myprog/MNIST_Judge/data/train_label_test.csv'
 
     #クラスのインスタンス化
     train_data = MNIST_Data()
     train_data.OpenFileNameCSV(csv_name)
     train_data.OpenLabelCSV(label_name)
     train_data.TransFormImgData()
+    train_data.OutPutTrainData()
+
 
     print(train_data.GetFileName(0))
     
