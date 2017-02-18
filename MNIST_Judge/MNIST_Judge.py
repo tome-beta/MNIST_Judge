@@ -4,7 +4,8 @@ import csv
 import cv2
 import matplotlib
 import matplotlib.pyplot as plt
-    
+
+import SVMManage
 
 class MNIST_Data(object):
     #定数
@@ -101,19 +102,25 @@ if __name__ == '__main__': #main関数
 #    csv_name = 'D:/myprog/MNIST_Judge/data/train_image_test.csv'
 #    label_name = 'D:/myprog/MNIST_Judge/data/train_label_test.csv'
 
+    #特徴量のファイル
+    feature_file = 'D:/myprog/MNIST_Judge/data/train_feature.csv'
+
     #クラスのインスタンス化
-    train_data = MNIST_Data()
-    train_data.OpenFileNameCSV(csv_name)
-    train_data.OpenLabelCSV(label_name)
-    train_data.TransFormImgData()
-    train_data.OutPutTrainData()
+#    train_data = MNIST_Data()
+#    train_data.OpenFileNameCSV(csv_name)
+#    train_data.OpenLabelCSV(label_name)
+#    train_data.TransFormImgData()
+#    train_data.OutPutTrainData()
+#    print(train_data.GetFileName(0))
 
+    #辞書ファイルを作成する
+    svm_manage = SVMManage.SVMManage()
+    svm_manage.ReadTrainFeatureFile(feature_file)
+    svm_manage.ReadTrainLabelFile(label_name)
+    svm_manage.ExecTrain()
 
-    print(train_data.GetFileName(0))
-    
     #画像を読み込む
-#    img = cv2.imread('D:/myprog/MNIST_Judge/data/train-images-idx3-ubyte/t10k-images-idx3-ubyte/img/img00001.png',0)
-    img = cv2.imread(train_data.GetFileName(0),0) 
+    img = cv2.imread('D:/myprog/MNIST_Judge/data/train-images-idx3-ubyte/t10k-images-idx3-ubyte/img/img00001.png',0)
     
     cv2.imshow('image', img)
     cv2.waitKey(0)
