@@ -65,7 +65,7 @@ class MNIST_Data(object):
         no = 0
         while no < len(self.__file_label_list) :
             #画像を読み込む
-            gray_img = cv2.imread(train_data.GetFileName(no),0) 
+            gray_img = cv2.imread(self.GetFileName(no),0) 
 
             #画層を２値化して０か１の値のListとして返す
             pixel_data = self.convertThreshold(gray_img)
@@ -77,8 +77,7 @@ class MNIST_Data(object):
         return 
 
     #手書き文字を２値化した特徴量をファイルに書き出す
-    def OutPutTrainData(self):
-        output_name = "train_feature.csv"
+    def OutPutData(self,output_name):
         with open(output_name,'w',newline='') as f:
             writer = csv.writer(f)
             writer.writerows(self.__pix_data)
@@ -99,34 +98,40 @@ if __name__ == '__main__': #main関数
     #csvファイルからファイル名を取得
     csv_name = 'D:/myprog/MNIST_Judge/data/train_image.csv'
     label_name = 'D:/myprog/MNIST_Judge/data/train_label.csv'
-#    csv_name = 'D:/myprog/MNIST_Judge/data/train_image_test.csv'
-#    label_name = 'D:/myprog/MNIST_Judge/data/train_label_test.csv'
+    test_csv_name = 'D:/myprog/MNIST_Judge/data/test_image.csv'
+    test_label_name = 'D:/myprog/MNIST_Judge/data/test_label.csv'
 
     #特徴量のファイル
     feature_file = 'D:/myprog/MNIST_Judge/data/train_feature.csv'
+    test_feature_file = 'D:/myprog/MNIST_Judge/data/test_feature_data.csv'
 
     #クラスのインスタンス化
-#    train_data = MNIST_Data()
-#    train_data.OpenFileNameCSV(csv_name)
-#    train_data.OpenLabelCSV(label_name)
-#    train_data.TransFormImgData()
-#    train_data.OutPutTrainData()
-#    print(train_data.GetFileName(0))
+    #train_data = MNIST_Data()
+    #train_data.OpenFileNameCSV(csv_name)
+    #train_data.OpenLabelCSV(label_name)
+    #train_data.TransFormImgData()
+    #train_data.OutPutData('tarin_feature_data.csv')
+    #print(train_data.GetFileName(0))
+
+    ##テスト用のデータをつくる
+    #test_data = MNIST_Data()
+    #test_data.OpenFileNameCSV(test_csv_name)
+    #test_data.OpenLabelCSV(test_label_name)
+    #test_data.TransFormImgData()
+    #test_data.OutPutData('test_feature_data.csv')
 
     #辞書ファイルを作成する
     svm_manage = SVMManage.SVMManage()
-    svm_manage.ReadTrainFeatureFile(feature_file)
-    svm_manage.ReadTrainLabelFile(label_name)
+    svm_manage.ReadTrainFeatureFile(test_feature_file)
+    svm_manage.ReadTrainLabelFile(test_label_name)
     svm_manage.ExecTrain()
+    svm_manage.ExecPredict()
 
     #画像を読み込む
     img = cv2.imread('D:/myprog/MNIST_Judge/data/train-images-idx3-ubyte/t10k-images-idx3-ubyte/img/img00001.png',0)
-    
     cv2.imshow('image', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    
- 
 
     end = 100
     
